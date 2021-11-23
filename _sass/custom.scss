@@ -10,6 +10,7 @@ $grey-color-light: lighten($grey-color, 40%);
 $grey-color-dark: darken($grey-color, 25%);
 
 $green-color: rgb(18, 80, 45);
+$blue-color-light: rgb(248, 248, 248);
 $blue-color-dark: rgb(10, 40, 50);
 $pink-color: rgb(200, 80, 130);
 
@@ -61,15 +62,14 @@ body {
  */
 pre,
 code {
-    @include relative-font-size(0.9375);
-    border: 1px solid lighten($grey-color, 20%);
+    border: 1px solid lighten($grey-color, 35%);
     border-radius: 5px;
     font-family: $mono-font-family;
 }
 
 code {
     font-family: $mono-font-family;
-    border: 1px solid lighten($grey-color, 20%);
+    border: 1px solid lighten($grey-color, 35%);
     padding: 1px 5px;
 }
 
@@ -116,12 +116,12 @@ figure {
  * Syntax highlighting styles
  */
 .highlighter-rouge {
-    background-color: lighten($grey-color, 42%);
+    background-color: $blue-color-light;
     .highlight {
-        background-color: lighten($grey-color, 42%);
+        background-color: $blue-color-light;
     }
     * {
-        background-color: lighten($grey-color, 42%);
+        background-color: $blue-color-light;
     }
 }
 

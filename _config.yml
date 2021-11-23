@@ -30,6 +30,7 @@ linkedin_username: garretttetrault
 permalink: /:year/:long_month/:title
 
 theme: minima
+
 show_excerpts: true
 # Exclude from processing.
 # The following items will not be processed, by default.

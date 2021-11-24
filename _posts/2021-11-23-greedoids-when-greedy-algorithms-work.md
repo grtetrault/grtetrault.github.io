@@ -5,7 +5,7 @@ date:   2021-11-23 00:00:00 -0400
 author: Garrett Tetrault
 categories: greedoid greedy algorithm
 excerpt_separator: <!--more-->
-mathjax: true
+katex: true
 comments: true
 ---
 
@@ -40,7 +40,7 @@ In this context, solutions are maximal feasible sets and are typically what you'
 Returning to MSTs, $$F$$ would consist of all (not necessarily spanning) trees and
 the set of solutions would be the collection of all spanning trees [^feasible-prim-kruskal].
 
-[^solution-basis]: In greedoid theory, "solutions" are referred to as "bases", however this language is not being used here to avoid a a digression into where this terminology comes from. For interested readers, this is borrowed from matroid theory, which you can learn more about here. <!-- REF NEEDED -->
+[^solution-basis]: In greedoid theory, "solutions" are referred to as "bases", however this language is not being used here to avoid a a digression into where this terminology comes from. For interested readers, this is borrowed from matroid theory. <!-- REF NEEDED -->
 [^feasible-prim-kruskal]: For the MST problem, $$F$$ can be either the collection of all trees or all forests. The former corresponds to Prim's algorithm, while the latter to Kruskal's.
 
 <figure>
@@ -71,13 +71,18 @@ Fortunately, greedoids have a prototypical implementation that is quite expressi
 Below, we have a partial `python` implementation of this algorithm to serve as pseudo-code:
 ```python
 # Here, Greedoid is some previously defined class.
-def greedy_algorithm(greedoid: Greedoid, weight_fn: Callable):
-    solution = []
-    for s in sorted(greedoid.search_space, key=weight_fn):
-        if solution + [s] in greedoid.feasible_sets:
-            solution.append(s)
+def greedy_algorithm(greedoid: Greedoid, weight: Callable):
+    result = []
+
+    while True:
+        candidates = [x for x in greedoid.S if result + [x] in greedoid.F]
+        if len(candidates) > 0:
+            min_candidate = argmin(candidates, lambda x: weight(solution + [x]))
+            result.append(min_candidate)
+        else:
+            break
     
-    return solution
+    return result
 ```
 You may think this algorithm looks pretty inefficient, and you'd be right!
 Most greedy algorithms you've seen are optimizations on this simple approach, 
@@ -107,7 +112,7 @@ To expand on this, we'll first restate the property:
 In a literal translation, it is saying that "all feasible sets contain at least one, smaller feasible set".
 This implies that all solutions contain solutions to smaller problems, which contain solutions to even smaller problems, and so on. 
 For each solution, this process will eventually lead to the empty set.
-Recalling our algorithm, we initiate `solution = []` -- the empty set is our starting point!
+Recalling our algorithm, we initiate `result = []` -- the empty set is our starting point!
 This means that we can reach every solution in $$F$$ starting from the empty set and iteratively expanding, just as we do in a greedy algorithm.
 As the minimal solution can be any solution depending on the weights, this ensures to us that the minimal solution is always *accessible*.
 
@@ -164,22 +169,73 @@ To show the scope of greedoids, I'd like to walk through a problem that feels ve
 [^type-of-scheduling]: More specifically, the scheduling problem here is single-machine scheduling with precedents. In the three field notation for job scheduling, the problem is $$\textbf{1} \vert \textbf{prec} \vert h_{\max}$$.
 
 The problem is stated as follows.
-We are given a set of jobs $$J = \{j_1, j_2, \ldots, j_n\}$$,
-where each job $$j_i \in J$$ has,
-* A runtime $$p_i$$,
-* A (possibly empty) set of precedent jobs $$J_i \subseteq J$$,
+We are given a set of $$n$$ jobs $$J = \{j_1, j_2, \ldots, j_n\}$$ where each job $$j_i \in J$$ has,
+* A runtime $$p_i$$.
+* A (possibly empty) set of precedent jobs $$J_i \subseteq J$$.
+    Note that we can't have any circular dependencies [^catch-22].
 * And a cost function $$h_j$$ which is a function of completion time (scheduled time + runtime).
 
+[^catch-22]: For example "to turn the lights on, you need to find the switch", and "to find the switch, the lights need to be on" would be a circular dependency. The order is actually constrained to the more precise definition of a partially ordered set. <!-- REF NEEDED -->
+
 The goal is to find a schedule of jobs that respects the precedent constraints and minimizes the maximum cost over all jobs.
-There are some constraints on what these precedent jobs can be.
-The one I'll mention is that we can't have any Catch-22s; there can't be any circular dependencies.
-For example "to turn the lights on, you need to find the switch", and "to find the switch, the lights need to be on" would be a circular dependency.
+It is important to note we are concerned with **minimizing the maximum cost**.
+A typically variant of this problem minimizes maximum lateness.
+This is done by giving each $$j_i \in J$$ a deadline $$d_i$$ and setting $$h_i(t) = t - d_i$$ where $$t$$ is the completion time.
+For objectives that minimize aggregate statistics, like total number of late jobs or profit, greedy algorithms do not necessarily produce the optimal solution.
 
-A typically variant of this problem minimizes maximum lateness, where $$h_i(t) = t - d_i$$ where $$t$$ is the completion time and $$d_i$$ is the deadline for job $$j_i$$.
+### Fitting the Greedoid
+To define a greedoid we need to specify the search space and feasible sets.
+A great place to start is identifying the solutions; what are we looking for?
+Greedoids impose a lot of restrictions on solutions that reduce the amount of viable representations. 
+This allows you to iterate faster to find ones that work.
+For example, the fact that all solutions must be unordered sets of the same size narrows how you can define them.
 
-An example...
+Here, we are looking for an optimal schedule or, equivalently, a sequence of jobs.
+As all jobs must be scheduled, solutions will be represented by the set $$J$$.
+This may seem like an odd choice because $$J$$ is an unordered set; all solutions would have the same representation.
+The reason we can use this is that greedy algorithms are order aware.
+Indeed, if you look back to the pseudo-code, `result` is an ordered set and `weight` acts on augmentations of this ordered set.
+So, while feasible sets and solutions are unordered, **the weight function and output of the algorithm can be order dependent**.
 
-$$S = \{X \subseteq J \mid J_i \subseteq X \; \forall \; j_i \in X\}$$
+The search space comes from breaking down the solutions into their building blocks.
+A good rule of thumb I've found is to keep the search space as generalizable as possible.
+The structure should be imposed by the feasible sets, not the the search space.
+A natural choice for the way we've represented solutions (and a search space that frequently comes up) would be the powerset of $$J$$.
+That is, $$S = 2^J$$.
+
+Turning to the feasible sets, this is where we need to enforce the precedence structure.
+Further, we need to make sure that both solutions and empty sets are feasible.
+These two provide an easy check to see if you're on the right track for problems in the wild.
+Because feasible sets are unordered, enforcing precedence amounts to making sure that a job never appears in a set without its precedents.
+The formal construction we'll use here is,
+
+$$
+F = \{X \mid X \in S \;\textrm{where}\; J_i \subseteq X \;\forall\; j_i \in X\}
+$$
+
+As the precedent constraints (and the subsequent feasible sets) impose an ordering on jobs,
+we can actually visualize what these feasible sets look like.
+
+<!-- Diagram of feasible sets for some job -->
+
+### Verification
+We'll now verify the that this construction indeed makes up a greedoid.
+
+The feasible sets are accessible due to the lack of circular dependencies.
+
+The feasible sets satisfy the exchange property because we can always follow up chains of precedents 
+
+To verify a feasible set, its good to first check the extrema of what should be included - the empty set and all solutions.
+We can see that $$F$$ indeed contains the empty set (which satisfies the constraints vacuously) and the solutions; the set of all jobs also contains all possible precedents.
+
+We won't get into a formal proof, but I'll outline the arguments.
+Given a feasible set $$X$$, there is some $$x \in X$$ such that $$x$$ is not the precedent of any other. 
+If this where the case, we would have a circular dependency somewhere in $$X$$, which we've disallowed in the problem statement.
+
+
+
+The proof that this structure for a seach space and feasible sets make up a greedoid is straight forward, and IO'll leave it up to the interested reader to 
+
 
 <!-- For example, we could be looking at a kitchen, where some jobs are prep work and others are customer orders -->
 

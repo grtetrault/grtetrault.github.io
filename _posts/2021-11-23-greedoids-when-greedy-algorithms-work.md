@@ -71,13 +71,13 @@ Fortunately, greedoids have a prototypical implementation that is quite expressi
 Below, we have a partial `python` implementation of this algorithm to serve as pseudo-code:
 ```python
 # Here, Greedoid is some previously defined class.
-def greedy_algorithm(greedoid: Greedoid, weight: Callable):
+def greedy_algorithm(greedoid: Greedoid, cost: Callable):
     result = []
 
     while True:
         candidates = [x for x in greedoid.S if result + [x] in greedoid.F]
         if len(candidates) > 0:
-            min_candidate = argmin(candidates, lambda x: weight(solution + [x]))
+            min_candidate = argmin(candidates, lambda x: cost(solution + [x]))
             result.append(min_candidate)
         else:
             break
@@ -158,8 +158,6 @@ Now that's a pretty powerful result!
 </figcaption>
 </figure>
 
-<!-- TODO FLOW -->
-
 ## An Example: Scheduling
 
 Until now, I've only mentioned how greedoids look for the MST problem. 
@@ -178,7 +176,7 @@ We are given a set of $$n$$ jobs $$J = \{j_1, j_2, \ldots, j_n\}$$ where each jo
 [^catch-22]: For example "to turn the lights on, you need to find the switch", and "to find the switch, the lights need to be on" would be a circular dependency. The order is actually constrained to the more precise definition of a partially ordered set. <!-- REF NEEDED -->
 
 The goal is to find a schedule of jobs that respects the precedent constraints and minimizes the maximum cost over all jobs.
-It is important to note we are concerned with **minimizing the maximum cost**.
+It is important to note we are concerned with *minimizing the maximum cost*.
 A typically variant of this problem minimizes maximum lateness.
 This is done by giving each $$j_i \in J$$ a deadline $$d_i$$ and setting $$h_i(t) = t - d_i$$ where $$t$$ is the completion time.
 For objectives that minimize aggregate statistics, like total number of late jobs or profit, greedy algorithms do not necessarily produce the optimal solution.
@@ -194,14 +192,15 @@ Here, we are looking for an optimal schedule or, equivalently, a sequence of job
 As all jobs must be scheduled, solutions will be represented by the set $$J$$.
 This may seem like an odd choice because $$J$$ is an unordered set; all solutions would have the same representation.
 The reason we can use this is that greedy algorithms are order aware.
-Indeed, if you look back to the pseudo-code, `result` is an ordered set and `weight` acts on augmentations of this ordered set.
+Indeed, if you look back to the pseudo-code, `result` is an ordered set and `cost` acts on augmentations of this ordered set.
 So, while feasible sets and solutions are unordered, **the weight function and output of the algorithm can be order dependent**.
 
 The search space comes from breaking down the solutions into their building blocks.
 A good rule of thumb I've found is to keep the search space as generalizable as possible.
 The structure should be imposed by the feasible sets, not the the search space.
-A natural choice for the way we've represented solutions (and a search space that frequently comes up) would be the powerset of $$J$$.
-That is, $$S = 2^J$$.
+If we look at the solutions, all members are made up of the same, complete set of jobs.
+A natural choice for the search space, then, also be $$J$$.
+That is, $$S = J$$.
 
 Turning to the feasible sets, this is where we need to enforce the precedence structure.
 Further, we need to make sure that both solutions and empty sets are feasible.
@@ -210,7 +209,7 @@ Because feasible sets are unordered, enforcing precedence amounts to making sure
 The formal construction we'll use here is,
 
 $$
-F = \{X \mid X \in S \;\textrm{where}\; J_i \subseteq X \;\forall\; j_i \in X\}
+F = \{X \mid X \in 2^S \;\textrm{where}\; J_i \subseteq X \;\forall\; j_i \in X\}
 $$
 
 As the precedent constraints (and the subsequent feasible sets) impose an ordering on jobs,
@@ -218,24 +217,30 @@ we can actually visualize what these feasible sets look like.
 
 <!-- Diagram of feasible sets for some job -->
 
-### Verification
-We'll now verify the that this construction indeed makes up a greedoid.
-
-The feasible sets are accessible due to the lack of circular dependencies.
-
-The feasible sets satisfy the exchange property because we can always follow up chains of precedents 
-
-To verify a feasible set, its good to first check the extrema of what should be included - the empty set and all solutions.
-We can see that $$F$$ indeed contains the empty set (which satisfies the constraints vacuously) and the solutions; the set of all jobs also contains all possible precedents.
-
-We won't get into a formal proof, but I'll outline the arguments.
-Given a feasible set $$X$$, there is some $$x \in X$$ such that $$x$$ is not the precedent of any other. 
-If this where the case, we would have a circular dependency somewhere in $$X$$, which we've disallowed in the problem statement.
+The proof that $$S$$ and $$F$$ make up a greedoid is fairly straightforward, so I'll leave it up to the interested reader.
+For a hint, it relies heavily on the fact that there are no circular dependencies.
 
 
+## Conclusion
 
-The proof that this structure for a seach space and feasible sets make up a greedoid is straight forward, and IO'll leave it up to the interested reader to 
+Before I wrap up this post, there are two things I have to come clean about.
+First, is that **greedoids can't represent all problems solved by greedy algorithms**.
+There exist problems that either can't or haven't been characterized as greedoids.
+Before you think this wasn't fruitful, greedoids *do* characterize a huge swath of this class of problems.
+Importantly, they do so in a concise and expressive way.
+There is an abundance of literature on generalizations of greedoids that include these other problems. 
 
+Second, we haven't discussed what the cost functions can be.
+There are some pretty different forms that appear in the MST and scheduling problems (linear and min-max respectively), and many more forms are possible.
+But, there are restrictions on what these can be.
+There is a lot of interesting theory here that is explored in further depth in the references.
+In this post, however, I've tried to focus on the *structure* of the problems at the cost of discussing the weight functions.
+
+Greedy algorithms are really beautiful when they work.
+They are simple, expressive, and easy to implement.
+The class of problems solved optimally by greedy algorithms is rich, diverse, and massive.
+The task of characterizing these problems and identifying threads of similarity between them is no easy feat.
+Though not complete, greedoids give valuable insight into what these problems look like, with a simplicity that makes them feasible for use in the real world.
 
 <!-- For example, we could be looking at a kitchen, where some jobs are prep work and others are customer orders -->
 

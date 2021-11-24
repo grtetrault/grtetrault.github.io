@@ -47,7 +47,7 @@ the set of solutions would be the collection of all spanning trees [^feasible-pr
 <img src="/assets/images/greedoids-when-greedy-algorithms-work/spanning-tree-feasibility.png"/>
 <figcaption>
     <div class="centered-figcaption">
-        Examples of feasible sets (green) and non-feasible sets (red) in the spanning tree problem. 
+        Examples of feasible sets (green) and non-feasible sets (red) in the MST problem. 
         Feasible sets must be connected and contain no cycles.
         Note the leftmost is a solution.
     </div>
@@ -67,7 +67,6 @@ an implication of the latter is that all solutions have the same number of membe
 I'll digress here from combinatorics to try to make greedoids more concrete.
 Despite being interesting in their own right, the objective here is to see how greedoids can help to understand greedy algorithms.
 To that end, let's take a look at what a greedy algorithm over a greedoid looks like.
-Fortunately, greedoids have a prototypical implementation that is quite expressive. <!-- REF NEEDED -->
 Below, we have a partial `python` implementation of this algorithm to serve as pseudo-code:
 ```python
 # Here, Greedoid is some previously defined class.
@@ -86,7 +85,7 @@ def greedy_algorithm(greedoid: Greedoid, cost: Callable):
 ```
 You may think this algorithm looks pretty inefficient, and you'd be right!
 Most greedy algorithms you've seen are optimizations on this simple approach, 
-either by reducing the search space, using more appropriate data structures, or by using a function to determine feasibility instead of precomputing $$F$$ (which can quickly get big).
+either by reducing the search space, using more appropriate data structures, or by another technique.
 Still, this algorithm is optimal for *any* greedoid.
 We won't go into a proof of this optimality here, <!-- REF NEEDED -->
 but what is important to take away is this: 
@@ -145,6 +144,7 @@ The property is as follows: <!-- REF NEEDED -->
 
 The exchange property states that, if we have two feasible sets, we can always find a member in the larger to adjoin to the smaller that preserves feasibility.
 As solutions are maximal, this implies that any feasible set can keep growing until it becomes a solution.
+Solutions will always be the bigger set until we reach another solution.
 Moreover, as the property only takes into account size, the most recent addition to a feasible set doesn't matter.
 At any iteration of our greedy algorithm, we can make any choice (remembering that our choices must preserve feasibility) and still be guaranteed to reach a solution. 
 Now that's a pretty powerful result!
@@ -199,13 +199,14 @@ The search space comes from breaking down the solutions into their building bloc
 A good rule of thumb I've found is to keep the search space as generalizable as possible.
 The structure should be imposed by the feasible sets, not the the search space.
 If we look at the solutions, all members are made up of the same, complete set of jobs.
-A natural choice for the search space, then, also be $$J$$.
+A natural choice for the search space, then, would also be $$J$$.
 That is, $$S = J$$.
 
 Turning to the feasible sets, this is where we need to enforce the precedence structure.
 Further, we need to make sure that both solutions and empty sets are feasible.
 These two provide an easy check to see if you're on the right track for problems in the wild.
 Because feasible sets are unordered, enforcing precedence amounts to making sure that a job never appears in a set without its precedents.
+The empty set would satisfy this vacuously, while the solutions contain all jobs and hence all precedents.
 The formal construction we'll use here is,
 
 $$
@@ -242,87 +243,11 @@ The class of problems solved optimally by greedy algorithms is rich, diverse, an
 The task of characterizing these problems and identifying threads of similarity between them is no easy feat.
 Though not complete, greedoids give valuable insight into what these problems look like, with a simplicity that makes them feasible for use in the real world.
 
-<!-- For example, we could be looking at a kitchen, where some jobs are prep work and others are customer orders -->
-
-<!-- Until now, I've only mentioned how greedoids look for the MST problem. 
-ƒSpanning trees lend themselves well to visualizations and many problems resemble their structure.
-To show the scope of greedoids, I'd like to walk through a problem that feels very different: huffman codes.
-
-The problem is stated as follows.
-We are given a set of symbols $$A = \{a_1, a_2, \ldots, a_n\}$$ with and weight function $$w: A \to \mathbf{R}^+$$ with positive real outputs.
-The goal is to find a binary prefix code $$C = \{c_1, c_2, \ldots, c_n\}$$, 
-where $$c_i$$ is the code word for $$a_i$$ and $$i \in \{1, 2, \ldots, n\}$$,
-that minimizes the following cost function,
-
-$$\mathcal{L}_{(A,w)}(C) = \sum_{i=1}^n w(a_i) \times \mbox{length}(c_i).$$
-
-To be a binary prefix code, no code word in $$C$$ can be the prefix of any other.
-For example, if `010` $$\in C$$, then neither `0` nor `01` can be in $$C$$.
-A great way to represent a binary prefix code is through a full binary tree [^code-as-tree].
-In this representation, the leaves are the set of symbols in $$A$$. 
-Every symbol has a path of rights and lefts (or zeros and ones) from the root that determines its code word.
-To get a different prefix code, these paths would need to be changed.
-
-[^code-as-tree]: For a more in depth look at prefix codes and why you can represent them with binary trees, see here. <!-- REF NEEDED -->
-
-<!-- Quick diagram showing prefix code to binary tree. -->
-<!-- Maybe show a couple different ones (same set up as catalan number wiki) -->
-
-<!-- But, these paths aren't actually that unique.
-In the cost function, the only attribute of a code word we are concerned with is its length.
-As length corresponds directly with depth in the tree representation,
-we can swap the left and right children of any node and the value of the cost doesn't change. 
-This equates to flipping a bit for all descendants.
-
-### Search Space
-
-To define a greedoid we need to specify the search space and feasible sets.
-A great place to start is identifying the solutions; what are we looking for?
-Here, we are looking for an optimal prefix code or, equivalently, an optimal binary tree with $$A$$ as the set of leaves.
-These trees will be our solutions.
-
-The search space comes from breaking down the solutions into their building blocks.
-For problems in the wild, there is definitely some exploration required here.
-Binary trees, for example, have a ton of representations and choosing one requires some trial and error.
-A good rule of thumb is to keep the members of the search space as basic and generalizable as possible.
-This comes from thinking forward to the when we'll have to satisfy the exchange property.
-The structure should be imposed by the feasible sets, not the the search space [^another-tree-representation].
-
-[^another-tree-representation]: Another representation would be to have each node a tuple of its left a right children $$(l, r)$$. Each node, then, would admit a tree e.g. $$(((a, b), (c, d)), e)$$. This additional structure makes it difficult (if even possible) to satisfy the exchange property.
-
-Here, we will define a node by its descendant leaves; that is, a subset of $$A$$.
-In this representation, the root node of a solution would be $$A$$ itself.
-Using this, the search space is defined by $$S = 2^A$$, the powerset of $$A$$.
-Of note is that the search space includes both the leaf nodes (whose descendent leaves are themselves), 
-and the empty set (with no descendants).
-This is for convenience in formalization, but for a sketch of the problem, they are not necessary.
-
-### Feasible Sets
-
-With the search space outlined, we turn to the feasible sets.
-This is where we want to enforce the tree structure.
-As above, there are a plethora of ways the feasible sets can be constructed.
-The one used here was the result of a lot of fiddling with the search space and seeing what feels natural and satisfies the greedoid properties.
-I know "natural" can be ambiguous, so I've provided some reasoning to (hopefully) communicate what I mean.
-
-To be a full binary trees, there must be some notion of children.
-A node must have exactly one left child and one right child.
-For this particular problem though, which child is left and which is right doesn't matter much.
-In the cost function, the only attribute of a code word we are concerned with is its length.
-As length corresponds directly with depth in the tree,
-swapping the left and right children of a node doesn't change the cost.
-This helps because order no longer matters.
-
-Further, a symbol cannot be a descendent of a node without it being a descendent of its children.
-
-the 
-
-descendent leaves of the children must account for all descendants of the parent. 
-
-Putting these together, a set $$X \subseteq S$$ is feasible if, for all $$n \in X$$, there exists unique $$l, r \in X$$ such that $$l \cup r = n$$. -->
-
 ---
 
 ### References
+
+* [Björner, Anders; Ziegler, Günter M. (1992), "Introduction to greedoids"](https://www.mi.fu-berlin.de/math/groups/discgeom/ziegler/Preprintfiles/006PREPRINT.pdf?1397057423)
+* [Boyd, E. Andrew; Faigle, Ulrich (1990), "An algorithmic characterization of antimatroids"](https://www.sciencedirect.com/science/article/pii/0166218X9090002T)
 
 ### Footnotes

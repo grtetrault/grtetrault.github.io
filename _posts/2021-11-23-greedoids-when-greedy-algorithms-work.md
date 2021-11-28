@@ -225,21 +225,24 @@ For a hint, it relies heavily on the fact that there are no circular dependencie
 ## Conclusion
 
 Before I wrap up this post, there are two things I have to come clean about.
-First, is that **greedoids can't represent all problems solved by greedy algorithms**.
-There exist problems that either can't or haven't been characterized as greedoids.
-Before you think this wasn't fruitful, greedoids *do* characterize a huge swath of this class of problems.
-Importantly, they do so in a concise and expressive way.
-There is an abundance of literature on generalizations of greedoids that include these other problems. 
 
-Second, we haven't discussed what the cost functions can be.
+First is that **greedoids can't represent all problems solved by greedy algorithms**.
+There exist problems that either can't or haven't been characterized as greedoids.
+For example, a greedoid representation for Huffman codes, one of the canonical examples I mentioned, hasn't been found.
+Before you think this wasn't fruitful, though, greedoids *do* characterize a huge swath of this class of problems.
+The minimum path problem solved by Dijkstra's algorithm, solving systems of linear equations via Gaussian elimination, and much more have corresponding greedoids.
+I find this more of a comment on myriad complexities that the seemingly simple greedy algorithm exploits, rather than the lack of utility in greedoids.
+
+Second, these optimization problems are very dependent on their cost function.
 There are some pretty different forms that appear in the MST and scheduling problems (linear and min-max respectively), and many more forms are possible.
-But, there are restrictions on what these can be.
-There is a lot of interesting theory here that is explored in further depth in the references.
-In this post, however, I've tried to focus on the *structure* of the problems at the cost of discussing the weight functions.
+What hasn't been discussed here is that there are restrictions on what these can be.
+And... there isn't a quick answer to what these restrictions are.
+I've tried in this post to focus on the *structure* of the problems at the cost of discussing cost functions (a topic deserving of its own post).
+This is a topic that has been explored in depth which the references give good introductions to.
 
 Greedy algorithms are really beautiful when they work.
 They are simple, expressive, and easy to implement.
-The class of problems solved optimally by greedy algorithms is rich, diverse, and massive.
+The class of problems solved optimally by greedy algorithms is both rich and diverse.
 The task of characterizing these problems and identifying threads of similarity between them is no easy feat.
 Though not complete, greedoids give valuable insight into what these problems look like, with a simplicity that makes them feasible for use in the real world.
 

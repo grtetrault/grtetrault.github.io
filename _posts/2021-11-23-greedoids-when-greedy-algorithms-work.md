@@ -72,11 +72,12 @@ Below, we have a partial `python` implementation of this algorithm to serve as p
 # Here, Greedoid is some previously defined class.
 def greedy_algorithm(greedoid: Greedoid, cost: Callable):
     result = []
-
     while True:
-        candidates = [x for x in greedoid.S if result + [x] in greedoid.F]
+        is_feasible = lambda X: X in greedoid.feasible_sets
+        candidates = [x for x in greedoid.search_space if is_feasible(result + [x])]
+
         if len(candidates) > 0:
-            min_candidate = argmin(candidates, lambda x: cost(solution + [x]))
+            min_candidate = min(candidates, key=lambda x: cost(result + [x]))
             result.append(min_candidate)
         else:
             break
@@ -158,6 +159,12 @@ Now that's a pretty powerful result!
 </figcaption>
 </figure>
 
+In summary, these properties tell us that greedy algorithms work when you can, 
+one, reach every solution from the empty set and,
+two, always grow a partial solution into a complete solution.
+Written like this, one can get the gist of why greedoids are optimally solved by greedy algorithms.
+The properties that define this structure seem to be the minimum to guarantee we can always reach the minimal solution.
+
 ## An Example: Scheduling
 
 Until now, I've only mentioned how greedoids look for the MST problem. 
@@ -229,7 +236,7 @@ Before I wrap up this post, there are two things I have to come clean about.
 First is that **greedoids can't represent all problems solved by greedy algorithms**.
 There exist problems that either can't or haven't been characterized as greedoids.
 For example, a greedoid representation for Huffman codes, one of the canonical examples I mentioned, hasn't been found.
-Before you think this wasn't fruitful, though, greedoids *do* characterize a huge swath of this class of problems.
+Before you think this wasn't fruitful, though, greedoids *do* characterize a huge swath of problems.
 The minimum path problem solved by Dijkstra's algorithm, solving systems of linear equations via Gaussian elimination, and much more have corresponding greedoids.
 I find this more of a comment on myriad complexities that the seemingly simple greedy algorithm exploits, rather than the lack of utility in greedoids.
 
@@ -240,8 +247,8 @@ And... there isn't a quick answer to what these restrictions are.
 I've tried in this post to focus on the *structure* of the problems at the cost of discussing cost functions (a topic deserving of its own post).
 This is a topic that has been explored in depth which the references give good introductions to.
 
-Greedy algorithms are really beautiful when they work.
-They are simple, expressive, and easy to implement.
+Greedy algorithms provide an elegant solution to a problem when they work. 
+They are often simple, expressive, and easy to implement.
 The class of problems solved optimally by greedy algorithms is both rich and diverse.
 The task of characterizing these problems and identifying threads of similarity between them is no easy feat.
 Though not complete, greedoids give valuable insight into what these problems look like, with a simplicity that makes them feasible for use in the real world.

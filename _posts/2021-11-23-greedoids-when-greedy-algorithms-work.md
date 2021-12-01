@@ -188,6 +188,17 @@ A typically variant of this problem minimizes maximum lateness.
 This is done by giving each $$j_i \in J$$ a deadline $$d_i$$ and setting $$h_i(t) = t - d_i$$ where $$t$$ is the completion time.
 For objectives that minimize aggregate statistics, like total number of late jobs or profit, greedy algorithms do not necessarily produce the optimal solution.
 
+<figure>
+<img src="/assets/images/greedoids-when-greedy-algorithms-work/scheduling-precedence-structure.png" style="width:12%"/>
+<figcaption>
+    <div class="centered-figcaption">
+        An example precedence structure for jobs \(J = \{j_1,j_2,j_3,j_4\}\). 
+        Arrows indicate an "is dependent on" relationship.
+        For example, if \(j_2 \to j_1\), this means that \(j_1\) is a precedent of \(j_2\). 
+    </div>
+</figcaption>
+</figure>
+
 ### Fitting the Greedoid
 To define a greedoid we need to specify the search space and feasible sets.
 A great place to start is identifying the solutions; what are we looking for?
@@ -224,6 +235,15 @@ As the precedent constraints (and the subsequent feasible sets) impose an orderi
 we can actually visualize what these feasible sets look like.
 
 <!-- Diagram of feasible sets for some job -->
+<figure>
+<img src="/assets/images/greedoids-when-greedy-algorithms-work/scheduling-feasible-sets.png" style="width:25%"/>
+<figcaption>
+    <div class="centered-figcaption">
+        The feasible sets from the precedence structure above.
+        The lines show superset and subset relationships between feasible sets.
+    </div>
+</figcaption>
+</figure>
 
 The proof that $$S$$ and $$F$$ make up a greedoid is fairly straightforward, so I'll leave it up to the interested reader.
 For a hint, it relies heavily on the fact that there are no circular dependencies.

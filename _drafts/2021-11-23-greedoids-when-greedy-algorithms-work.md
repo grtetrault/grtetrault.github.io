@@ -14,7 +14,7 @@ A greedy algorithm builds up a solution by making the locally optimal choice, bu
 <!--more-->
 
 This family of algorithms is often introduced by way of a zoo. 
-We have Kruskal's algorithm, then Dijkstra's, followed by Huffman codes and other canonical (and sometimes counter) examples. <!-- REF NEEDED -->
+We have Kruskal's algorithm, then Dijkstra's, followed by Huffman codes and other canonical (and sometimes counter) examples.
 While the similarities in processes is made plain, the job of finding the similarities in the *problems* is often left to the reader.
 After all, why should finding the shortest path and determining the most efficient prefix code be solved by the same type of algorithm?
 What properties do these problems share?
@@ -279,5 +279,7 @@ Though not complete, greedoids give valuable insight into what these problems lo
 
 * [Björner, Anders; Ziegler, Günter M. (1992), "Introduction to greedoids"](https://www.mi.fu-berlin.de/math/groups/discgeom/ziegler/Preprintfiles/006PREPRINT.pdf?1397057423)
 * [Boyd, E. Andrew; Faigle, Ulrich (1990), "An algorithmic characterization of antimatroids"](https://www.sciencedirect.com/science/article/pii/0166218X9090002T)
+
+https://nvlpubs.nist.gov/nistpubs/jres/69B/jresv69Bn1-2p1_A1b.pdf
 
 ### Footnotes

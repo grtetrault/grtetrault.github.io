@@ -26,7 +26,7 @@ To that end, we will work backwards from a greedy algorithm (GA) and build up to
 ## Kruskal's algorithm
 Kruskal's algorithm, which solves the minimum spanning tree (MST) problem, makes for a good case study.
 In this problem, each edge in a connected graph is given a weight and we are tasked with finding the set of edges that form an MST.
-A good introduction to MSTs from can be found [here](https://courses.grainger.illinois.edu/cs225/fa2021/resources/mst/).
+A good introduction to MSTs can be found [here](https://courses.grainger.illinois.edu/cs225/fa2021/resources/mst/).
 
 At a high level, Kruskal's algorithm starts with an empty list and repeatedly appends the cheapest edge that doesn't create a cycle.
 This is translated into an (incomplete and rather slow) python implementation below:
@@ -198,7 +198,7 @@ for any two feasible sets, one smaller and one larger, there is an element of th
 This is exactly the definition of the exchange property.
 
 Reversing the reduction above, this property gives the guarantee that a basis is always returned.
-And, though the example here relies on graph specific features, the properties is remarkably ubiquitous.
+And, though the example here relies on graph specific features, the property is remarkably ubiquitous.
 
 ## Conclusion
 Summarizing the results, the definition of a greedoid can now be made.

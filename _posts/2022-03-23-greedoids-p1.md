@@ -77,7 +77,7 @@ Notice how the feasible sets naturally contain all bases.
 <img src="/assets/images/greedoids/mst-feasibility.png" style="width:75%"/>
 <figcaption>
     <div class="centered-figcaption">
-        Examples of feasible sets (green) and non-feasible sets (red) in Kruskal's algorithm for MSTs. 
+        Examples of feasible sets (green) and non-feasible sets (red) in the MST problem. 
         Feasible sets must be contain no cycles.
         Note the rightmost is a basis.
     </div>
@@ -124,7 +124,7 @@ This is the essence of accessibility.
 <img src="/assets/images/greedoids/mst-accessibility.png" style="width:80%"/>
 <figcaption>
     <div class="centered-figcaption">
-        Examples of feasible sets (trees) in the MST problem.
+        Examples of a feasible set chain in the MST problem.
         Each feasible set contains a feasible set one element smaller, 
         until the empty set is reached.
     </div>

@@ -21,7 +21,7 @@
 title: Garrett Tetrault
 email: grtetrault@pm.me
 description: >- # this means to ignore newlines until "baseurl:"
-  A simple blog for everyone to see.
+  A collection of interesting (and mathy) ideas and concepts I've encountered.
 baseurl: "" # The subpath of your site, e.g. /blog
 url: "" # The base hostname & protocol for your site, e.g. http://example.com
 github_username: grtetrault

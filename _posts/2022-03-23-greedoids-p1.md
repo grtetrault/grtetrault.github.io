@@ -74,7 +74,7 @@ For Kruskal's algorithm and the MST problem, these sets would have the following
 Notice how the feasible sets naturally contain all bases.
 
 <figure>
-<img src="/assets/images/greedoids/mst-feasibility.png" style="width:75%"/>
+<img src="/assets/images/greedoids/mst-feasibility.png" style="width:85%"/>
 <figcaption>
     <div class="centered-figcaption">
         Examples of feasible sets (green) and non-feasible sets (red) in the MST problem. 
@@ -121,10 +121,10 @@ This widens the previous statement to the following: *every feasible set* must b
 This is the essence of accessibility.
 
 <figure>
-<img src="/assets/images/greedoids/mst-accessibility.png" style="width:80%"/>
+<img src="/assets/images/greedoids/mst-accessibility.png" style="width:90%"/>
 <figcaption>
     <div class="centered-figcaption">
-        Examples of a feasible set chain in the MST problem.
+        Example of a feasible set chain in the MST problem.
         Each feasible set contains a feasible set one element smaller, 
         until the empty set is reached.
     </div>
@@ -161,7 +161,7 @@ instead of appending to a single feasible set,
 consider the interplay of a feasible set with all others.
 
 <figure>
-<img src="/assets/images/greedoids/mst-exchange.png" style="width:50%"/>
+<img src="/assets/images/greedoids/mst-exchange.png" style="width:60%"/>
 <figcaption>
     <div class="centered-figcaption">
         A feasible set (right) in the MST problem

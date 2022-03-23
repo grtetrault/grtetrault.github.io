@@ -15,9 +15,9 @@ $blue-color-dark: rgb(40, 70, 80);
 $pink-color: rgb(200, 80, 130);
 
 // Width of the content area
-$content-width: 900px;
+$content-width: 800px;
 $on-palm: 600px;
-$on-laptop: 900px;
+$on-laptop: 800px;
 
 /**
  * Basic styling
@@ -25,7 +25,7 @@ $on-laptop: 900px;
 body {
     font: $base-font-weight #{$base-font-size}/#{$base-line-height} $base-font-family;
     color: $text-color;
-    background-color: darken($background-color, 2%);
+    background-color: $background-color; // darken($background-color, 2%);
     -webkit-text-size-adjust: 100%;
     -webkit-font-feature-settings: "kern" 1;
     -moz-font-feature-settings: "kern" 1;
@@ -154,6 +154,7 @@ figure {
 }
 
 .site-nav {
+    @include relative-font-size(1.25);
     float: right;
     line-height: $base-line-height * $base-font-size * 1.75;
 
@@ -251,7 +252,7 @@ figure {
 
 .footer-col-wrapper {
     @include relative-font-size(0.9375);
-    color: $grey-color;
+    color: black;
     margin-left: -$spacing-unit / 2;
     @extend %clearfix;
 }
@@ -301,29 +302,73 @@ figure {
 /**
 * Page content
 */
-.page-content {
-    padding: $spacing-unit 0;
-    flex: 1;
+.page-heading  {
+    @include relative-font-size(2.625);
+    font-family: $serif-font-family;
+    letter-spacing: -1px;
+    line-height: 1;
+
+    @include media-query($on-laptop) {
+        @include relative-font-size(2);
+    }
+    margin-bottom: $spacing-unit / 4;
 }
 
-.page-heading {
-    @include relative-font-size(1.5);
+.page-content {
+    margin-bottom: $spacing-unit / 2;
+
+    h2 {
+        @include relative-font-size(2);
+        font-family: $serif-font-family;
+
+        @include media-query($on-laptop) {
+            @include relative-font-size(1.75);
+        }
+    }
+
+    h3 {
+        @include relative-font-size(1.625);
+        font-family: $serif-font-family;
+
+        @include media-query($on-laptop) {
+            @include relative-font-size(1.375);
+        }
+    }
+
+    h4 {
+        @include relative-font-size(1.25);
+        font-family: $serif-font-family;
+
+        @include media-query($on-laptop) {
+            @include relative-font-size(1.125);
+        }
+    }
+
+    hr {
+        width: 60%;
+        margin: auto;
+        height: 1.5px;
+        border-width: 0;
+        color: $grey-color;
+        background-color: $grey-color;
+    }
 }
 
 .post-list-heading {
-    @include relative-font-size(1.5);
+    @include relative-font-size(2.625);
+    font-family: $serif-font-family;
+    letter-spacing: -1px;
+    line-height: 1;
+
+    @include media-query($on-laptop) {
+        @include relative-font-size(2);
+    }
+    margin-bottom: $spacing-unit;
 }
 
 .post-list {
-    background-color: $background-color;
-    border: 1px solid $grey-color-light;
-    border-radius: 2px;
-    padding: 3px 10px;
-    margin-left: 0;
-    list-style: none;
-
     > li {
-        margin-bottom: $spacing-unit;
+        margin-bottom: $spacing-unit / 2;
     }
 }
 
@@ -334,10 +379,6 @@ figure {
 
 .post-link {
     display: block;
-    // color: $grey-color;
-    // &:visited {
-    //     color: darken($grey-color, 15%);
-    // }
     @include relative-font-size(1.65);
     font-family: $serif-font-family;
 }
@@ -351,7 +392,6 @@ figure {
 
 .post-title {
     @include relative-font-size(2.625);
-    // color: $green-color;
     font-family: $serif-font-family;
     letter-spacing: -1px;
     line-height: 1;
@@ -372,10 +412,6 @@ figure {
 }
 
 .post-content {
-    background-color: $background-color;
-    border: 1px solid $grey-color-light;
-    border-radius: 2px;
-    padding: 40px 40px;
     margin-bottom: $spacing-unit;
 
     code {

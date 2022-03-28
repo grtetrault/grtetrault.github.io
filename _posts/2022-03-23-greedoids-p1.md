@@ -184,7 +184,7 @@ The goal is to find an edge in `larger` that can be appended to `smaller`.
 
 Comparing the nodes in each set, there are two cases:
 * The set of nodes in `larger` has at least one node not in `smaller`.
-* The set of  nodes of `smaller` and `larger` are equal.
+* All nodes of `larger` are also in `smaller`.
 
 In the former case, any edge containing a node not in `smaller` can be chosen.
 This would create a branch off of `smaller` into new territory (the new node).

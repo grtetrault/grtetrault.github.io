@@ -3,10 +3,10 @@ layout: post
 title:  "Greedoids, Part 1: What is a greedoid?"
 date:   2022-03-23
 author: Garrett Tetrault
-categories: greedoid greedy algorithm
-excerpt_separator: <!--more-->
+publish: true
 katex: true
 comments: true
+categories: greedoid greedy algorithm
 ---
 
 Greedy algorithms build up a solution by making the locally optimal, or "greedy", choice at each step.
@@ -184,7 +184,7 @@ The goal is to find an edge in `larger` that can be appended to `smaller`.
 
 Comparing the nodes in each set, there are two cases:
 * The set of nodes in `larger` has at least one node not in `smaller`.
-* All nodes of `smaller` are also in `larger`.
+* The set of  nodes of `smaller` and `larger` are equal.
 
 In the former case, any edge containing a node not in `smaller` can be chosen.
 This would create a branch off of `smaller` into new territory (the new node).

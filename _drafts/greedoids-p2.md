@@ -7,6 +7,7 @@ categories: greedoid greedy algorithm
 excerpt_separator: <!--more-->
 katex: true
 comments: true
+publish: true
 ---
 
 <!-- 

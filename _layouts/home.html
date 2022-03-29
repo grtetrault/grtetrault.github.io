@@ -19,7 +19,12 @@ layout: default
         <li>
           <h3 style="margin-bottom: 0px;">
             <a class="post-link" href="{{ post.url | relative_url }}">
-              {{ post.title | escape }}
+              {% assign post_display_title = post.title %}
+              {% if post.series %}
+                {% assign post_display_title = post.series | append: ', ' | append: post.section | append: ': ' | append: post.title %}
+              {% endif %}
+
+              {{ post_display_title | escape }}
             </a>
           </h3>
           {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}

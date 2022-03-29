@@ -1,6 +1,8 @@
 ---
 layout: post
-title:  "Greedoids, Part 1: What is a greedoid?"
+series:  "Greedoids"
+section: "Part 1"
+title:   "What is a greedoid?"
 date:   2022-03-23
 author: Garrett Tetrault
 publish: true
@@ -166,17 +168,6 @@ To resolve this, Korte and Lovász shifted perspective:
 instead of appending to a single feasible set, 
 consider the interplay of a feasible set with all others.
 
-<figure>
-<img src="/assets/images/greedoids/mst-pigeonhole.png" style="width:60%"/>
-<figcaption>
-    <div class="centered-figcaption">
-        The pigeonhole principle applied to two forests, one smaller (left) and one larger (right), with the same node sets.
-        The components of the smaller are superimposed on the larger.
-        Notice the edge in the larger that spans the components of smaller.
-    </div>
-</figcaption>
-</figure>
-
 To that end, the MST problem will again be probed.
 Let `smaller` and `larger` be forests with the latter containing more edges.
 The goal is to find an edge in `larger` that can be appended to `smaller`.
@@ -199,11 +190,12 @@ Along the path between these nodes, there is an edge that spans components of `s
 Because it spans components, this edge can be added without creating a cycle. 
 
 <figure>
-<img src="/assets/images/greedoids/mst-exchange.png" style="width:60%"/>
+<img src="/assets/images/greedoids/mst-pigeonhole.png" style="width:75%"/>
 <figcaption>
     <div class="centered-figcaption">
-        A feasible set (right) in the MST problem
-        receiving an edge (blue) from a larger feasible set (left) that preserves feasibility. 
+        The pigeonhole principle applied to two forests, one smaller (left) and one larger (right), with the same node sets.
+        The components of the smaller are superimposed on the larger.
+        Notice the edge in the larger that spans the components of smaller.
     </div>
 </figcaption>
 </figure>
@@ -213,6 +205,16 @@ This shows that for any two forests, one smaller and one larger, there is an edg
 Generalizing to greedoids gives the following:
 for any two feasible sets, one smaller and one larger, there is an element of the larger that can be appended to the smaller that preserves feasibility.
 This is exactly the definition of the exchange property.
+
+<figure>
+<img src="/assets/images/greedoids/mst-exchange.png" style="width:55%"/>
+<figcaption>
+    <div class="centered-figcaption">
+        A feasible set (right) in the MST problem
+        receiving an edge (blue) from a larger feasible set (left) that preserves feasibility. 
+    </div>
+</figcaption>
+</figure>
 
 Reversing the reduction above, this property gives the guarantee that a basis is always returned.
 And, though the example here relies on graph specific features, the property is remarkably ubiquitous.

@@ -1,6 +1,8 @@
 ---
 layout: post
-title:  "Greedoids, Part 2: Putting into practice"
+series: "Greedoids"
+section: "Part 2"
+title:  "Putting into practice"
 date:   2022-03-24
 author: Garrett Tetrault
 categories: greedoid greedy algorithm

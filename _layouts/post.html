@@ -4,6 +4,10 @@ layout: default
 <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
+    {% if page.series %}
+      {% assign page_series_title = page.series | append: ', ' | append: page.section%}
+      <h3 class="post-title p-name" itemprop="name headline">{{ page_series_title | escape }}</h3>
+    {% endif %}
     <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
     <p class="post-meta">
       <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">

@@ -10,7 +10,7 @@ categories: greedoid greedy algorithm
 ---
 
 Greedy algorithms build up a solution by making the locally optimal, or "greedy", choice at each step.
-For certain problems, this family of algorithms is highly effective, producing optimal solutions.
+For certain problems, this family of algorithms produces optimal solutions.
 Other times, using a greedy algorithm can return woefully incorrect results.
 So, when can a greedy algorithm be used to find the optimal solution?
 
@@ -24,9 +24,8 @@ In this post, the concept of a greedoid will be introduced and the intuition beh
 To that end, we will work backwards from a greedy algorithm and build up to an accessible definition of a greedoid.
 
 ## Kruskal's algorithm
-Kruskal's algorithm, which solves the minimum spanning tree (MST) problem, makes for a good case study.
+Kruskal's algorithm, which solves the [minimum spanning tree](https://courses.grainger.illinois.edu/cs225/fa2021/resources/mst/) (MST) problem, makes for a good case study.
 In this problem, each edge in a connected graph is given a weight and we are tasked with finding the set of edges that form an MST.
-A good introduction to MSTs can be found [here](https://courses.grainger.illinois.edu/cs225/fa2021/resources/mst/).
 
 At a high level, Kruskal's algorithm starts with an empty list and repeatedly appends the cheapest edge that doesn't create a cycle.
 The core of the algorithm is translated into Python pseudo-code below:
@@ -49,9 +48,9 @@ At every other point along the way, it is only a "partial solution".
 Additional observations about these partial solutions can be made:
 
 * The initial condition `solution = []` means that the empty set is a partial solution.
-* The  `not contains_cycle` condition ensures that every partial solution is in fact a forest.
+* The  `not contains_cycle` condition ensures that every partial solution is a [forest](https://en.wikipedia.org/wiki/Tree_(graph_theory)#Forest).
 
-A [forest](https://en.wikipedia.org/wiki/Tree_(graph_theory)#Forest) is a graph that contains no cycles.
+A forest is a graph that contains no cycles.
 The name comes from the fact that a forest looks like many disconnected trees.
 These separate trees are called the [components](https://en.wikipedia.org/wiki/Component_(graph_theory)) of the forest.
 

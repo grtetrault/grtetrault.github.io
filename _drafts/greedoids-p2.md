@@ -10,19 +10,21 @@ comments: true
 publish: true
 ---
 
-<!-- 
+<!--
 Outline
 
 start with example copying Kruskal's algorithm
 
 show why this is naive (only linear problems)
 
+singular basis
+
 Give an example of a problem that uses nonlinear problems
 
 Talk a bit more on what weight functions are allowable (can be hand-waving here)
 
 Go into the scheduling problem example
- -->
+-->
 
 In the last post, we explored what a greedoid was
 
@@ -51,4 +53,4 @@ So, while the MST can be viewed as a greedoid under both problems, the weight fu
 
 minimizing `sum(weight_fn(e) for e in greedoid.search_space)`
 
-For what weight functions 
+For what weight functions

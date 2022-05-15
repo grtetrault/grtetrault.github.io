@@ -7,7 +7,6 @@ date:   2022-03-23
 author: Garrett Tetrault
 publish: true
 katex: true
-comments: true
 categories: greedoid greedy algorithm
 ---
 
@@ -29,14 +28,15 @@ To that end, we will work backwards from a greedy algorithm and build up to an a
 Kruskal's algorithm, which solves the [minimum spanning tree](https://courses.grainger.illinois.edu/cs225/fa2021/resources/mst/) (MST) problem, makes for a good case study.
 In this problem, each edge in a connected graph is given a weight and we are tasked with finding the set of edges that form an MST.
 
-At a high level, Kruskal's algorithm starts with an empty list and repeatedly appends the cheapest edge that doesn't create a cycle.
+At a high level, Kruskal's algorithm starts with an empty set and repeatedly appends the cheapest edge that doesn't create a cycle.
 The core of the algorithm is translated into Python pseudo-code below:
 
 ```python
 def kruskal(graph, weight_fn):
-    solution = []
+    # Python set object that can be added to by the union operator "|".
+    solution = set()
     for edge in sorted(graph.edges, key=weight_fn):
-        candidate = solution + edge
+        candidate = solution | set(edge)
         if not contains_cycle(candidate):
             solution = candidate
     return solution
@@ -49,7 +49,7 @@ A second observation is that, despite its name, the variable `solution` only mak
 At every other point along the way, it is only a "partial solution".
 Additional observations about these partial solutions can be made:
 
-* The initial condition `solution = []` means that the empty set is a partial solution.
+* The initial condition `solution = {}` means that the empty set is a partial solution.
 * The  `not contains_cycle` condition ensures that every partial solution is a [forest](https://en.wikipedia.org/wiki/Tree_(graph_theory)#Forest).
 
 A forest is a graph that contains no cycles.
@@ -62,7 +62,7 @@ In a more general sense, a solution is what the algorithm is optimizing for, whi
 ## The building blocks
 These ideas of search space, solutions, and partial solutions are the building blocks of a greedoid.
 In greedoid theory, the search space is referred to as the *ground set*,
-solutions are called *bases* (as in basis),
+solutions are called *bases* (singular *basis*),
 and the collection of both the solutions and partial solutions are known as the *feasible sets*.
 
 Of note is that the above observations are not specific to just the optimal solution.
@@ -231,7 +231,7 @@ In the context of a greedy algorithm, what makes a greedoid interesting is that 
 1. Every solution can be reached.
 2. A solution is always returned.
 
-And these make a greedy algorithm work.
+And these allow a greedy algorithm work.
 Moreover, the properties of a greedoid are incredibly general.
 A considerable number of problems solved by greedy algorithms, from the MST, to Dijkstra's algorithm, to even Gaussian elimination, can be put into the context of greedoids.
 
@@ -239,8 +239,8 @@ However, there still are problems solved by greedy algorithms that do not have a
 One well known example is Huffman coding.
 
 In the next post, the capabilities and limitations of greedoids will be explored further.
-To that end, the greedy algorithm for greedoids will be given and used to develop an algorithm to solve the scheduling problem.
-The aim is to give a picture of when one can use greedoids and why one would want to.
+To that end, [objective functions](https://en.wikipedia.org/w/index.php?title=Objective_function) will be discussed and used to develop a generic greedy algorithm for greedoids.
+The aim is to give a picture of when one can use greedoids and how one would do so.
 
 Thanks for reading!
 

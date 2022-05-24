@@ -62,7 +62,7 @@ In a more general sense, a solution is what the algorithm is optimizing for, whi
 ## The building blocks
 These ideas of search space, solutions, and partial solutions are the building blocks of a greedoid.
 In greedoid theory, the search space is referred to as the *ground set*,
-solutions are called *bases* (singular *basis*),
+solutions are called *bases* (plural of *basis*),
 and the collection of both the solutions and partial solutions are known as the *feasible sets*.
 
 Of note is that the above observations are not specific to just the optimal solution.

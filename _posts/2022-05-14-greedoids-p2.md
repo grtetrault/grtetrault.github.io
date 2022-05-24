@@ -5,18 +5,17 @@ section: "Part 2"
 title:  "Structure vs. objective"
 date:   2022-05-14
 author: Garrett Tetrault
-publish: false
-katex: true
+publish: true
 categories: greedoid greedy algorithm
 ---
 
 This is part two in a series on greedoids.
-In a [previous post](/2022/03/greedoids-p1) we built up what a greedoid was 
+In [part one](/2022/03/greedoids-p1), we built up what a greedoid was 
 and introduced terminology such as ground set, basis, and feasible set.
 
 In that post, the [minimum spanning tree](https://courses.grainger.illinois.edu/cs225/fa2021/resources/mst/) (MST) problem was explored at length.
-We were largely able to avoid discussing the "minimality" constraint.
-Instead, we focussed on the properties and relationships of the spanning trees.
+Despite being central to the problem, we were largely able to avoid discussing the “minimality” goal.
+Instead, we focussed on the patterns and makeup of the spanning trees.
 
 This exemplifies why greedoids can help in understanding greedy algorithms.
 They enable us to reason about a problem's *structure* separate from its *objective*.
@@ -39,10 +38,9 @@ If you know that the roads form a grid, mapping out you're trip efficiently is m
 </figure>
 
 Knowing a problem is a greedoid is like knowing that streets are organized in a grid.
-And much like how visiting every museums might not be possible in a day, some objectives are not optimally solved by greedy algorithms, even if the greedoid properties hold.
+Just like how visiting every museums might not be possible in a day, some objectives are not optimally solved by greedy algorithms, even if the greedoid properties hold.
 
-The structure of greedoids and how it relates to greedy algorithms was the subject of the previous post.
-In this post, objectives will be covered.
+With the structure of greedoids covered in part one, it's time to tackle objectives.
 We will start by pinning down objectives and putting them in a form we can use.
 Then, to understand which objectives are optimally solved by greedy algorithms, a generic greedy algorithm will be developed.
 Finally, a description of these compatible objectives will be given.
@@ -50,7 +48,7 @@ Finally, a description of these compatible objectives will be given.
 
 ## Objective functions
 
-In optimization, an objective is the desired solution to a problem (i.e. the thing we want returned).
+In optimization, an objective is the desired solution to a problem.
 For example, "the shortest route to the train station" is an objective in the analogy above.
 
 In greedy algorithms, though, local choices are made before reaching a solution.
@@ -93,17 +91,17 @@ This is the strategy adopted here.
 
 As with all optimization problems, the solution must also meet some constraints.
 For greedoids, this means that all partial solutions and solutions must be feasible sets.
-As such, only feasible sets are considered for the next possible value of the running solution.
+As such, only feasible sets are considered for the next possible value of the interim solution.
 
 This also helps clears up what is meant by "locally optimal" for greedoids.
-As each iteration should minimize the next value of the running solution, 
-the locally optimal choice is an element of the search space that, together with the running solution,
+As each iteration should minimize the next value of the interim solution, 
+the locally optimal choice is an element of the search space that, together with the interim solution,
 both is a feasible set and minimizes the objective function.
 
-As for stopping conditions, we'll put maximal feasible sets, or *bases* (singular *basis*), to use.
-These sets occur when no element of the search space can be added to result in a larger feasible set.
+As for stopping conditions, we’ll put maximal feasible sets, or *bases* (plural of *basis*), to use.
+These sets occur when no element of the search space can be added to a feasible set to result in a larger feasible set.
 Bases were introduced in the previous post as an analog to solutions, so they're a natural choice for results.
-So we can keep adding elements until a basis is reached.
+So, we can keep adding elements until a basis is reached.
 
 And that's all we need! 
 To make this more concrete, the procedure and conditions above are expressed in pseudo-code below:
@@ -118,7 +116,7 @@ def greedy_algorithm(greedoid, objective_fn):
         min_elem = None
         min_val  = inf
         for elem in greedoid.ground_set:
-            # Only elements that form feasible sets with the running solution
+            # Only elements that form feasible sets with the interim solution
             # are considered for next possible steps.
             candidate = solution | set(elem)
             if candidate in greedoid.feasible_sets:
@@ -127,7 +125,7 @@ def greedy_algorithm(greedoid, objective_fn):
                 if val < min_val:
                     min_elem = elem
                     min_val  = val
-        # Update running solution.
+        # Update interim solution.
         solution = solution | set(min_elem)
     return solution
 ```
@@ -137,7 +135,7 @@ def greedy_algorithm(greedoid, objective_fn):
 
 Coming back to the MST and MDST problems; despite working on the same spanning trees, the two problems have markedly different complexity.
 The MST problem can be solved by a simple greedy algorithm, while the MDST problem is [NP-hard](https://stackoverflow.com/questions/1857244/what-are-the-differences-between-np-np-complete-and-np-hard).
-It cannot be solved optimally by a greedy algorithm.
+It cannot be solved optimally by any greedy algorithm.
 
 This illustrates *compatibility*.
 If an objective function is compatible with a greedoid, then a greedy algorithm finds an optimal solution.
@@ -156,14 +154,14 @@ That is, if `min_elem` is the locally optimal choice at a given step, then `min_
 This is the crux of compatibility.
 
 This can be formalized by expanding the definition of locally optimal, then replacing the pieces that refer to the greedy algorithm with arbitrary sets and elements.
-For example, "running solution" can be replaced with "all feasible sets", and so on like this.
+For example, "interim solution" can be replaced with "all feasible sets", and so on like this.
 This definition is more apt to proofs, but the statement above captures the same idea.
 
 
 ## Conclusion
 
 We now have tools to determine if a problem is optimally solved by a greedy algorithm.
-That is, if the structure of a problem is a greedoid, and the objective can be represented by a compatible objective function, then the greedy algorithm works.
+If the structure of a problem is a greedoid, and the objective can be represented by a compatible objective function, then the greedy algorithm works.
 A procedure to preform this check would look like the following:
 
 1. Identify the feasible sets and bases of a problem.
@@ -178,7 +176,7 @@ Greedoids enable a deeper understanding of the problems they encompass.
 They make explicit the common properties that allow problems to be optimized by the simple "greedy choice" procedure.
 Moreover, they allow for analysis of a problem's structure separate from its objective, surfacing relationships between problems.
 
-This is the end of my series on greedoids, wrapping up a (hopefully) approachable introduction to an interesting combinatorial subject.
+This is the end of my series on greedoids, wrapping up a hopefully approachable introduction to an interesting subfield of combinatorics.
 
 
 ### Further reading
@@ -188,7 +186,7 @@ They provide a more rigorous treatment of greedoids, defining the ideas discusse
 
 A topic not talked about here, which is covered in the references, is the idea of *greedoid languages*.
 These are [formal languages](https://en.wikipedia.org/wiki/Formal_language) that allow for the study greedy algorithms on ordered lists as opposed to unordered sets (as in `greedy_algorithm`).
-In particular, they account for objectives functions that are order dependent, opening up the types of problems that fit into this framework.
+In particular, they account for objectives functions that are order dependent, opening up new types of problems that fit into this framework.
 [Single machine scheduling](https://en.wikipedia.org/wiki/Single-machine_scheduling) is one such problem.
 
 Another avenue is the related field, [matroids](https://en.wikipedia.org/wiki/Matroid).

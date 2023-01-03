@@ -6,7 +6,7 @@ title: About me
 
 ## About me
 
-<img src="/assets/images/me.png" style="border-radius:50%;width:25%;float:right;padding:10px;">
+<img src="/assets/images/me.png" style="border-radius:50%;width:25%;float:right;padding:10px;"/>
 
 I'm Garrett Tetrault, a data engineer and math enthusiast working in the enterprise service space.
 

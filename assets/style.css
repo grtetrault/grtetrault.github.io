@@ -33,8 +33,11 @@ a {
     text-decoration: underline;
 }
 
-nav a {
-    margin-right: 10px;
+.about-me-img {
+    width:25%;
+    float:right;
+    padding:10px;
+    border-radius:50%;
 }
 
 textarea,

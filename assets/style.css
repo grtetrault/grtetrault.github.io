@@ -33,6 +33,10 @@ a {
     text-decoration: underline;
 }
 
+nav a {
+    padding: 8pt;
+}
+
 .about-me-img {
     width:25%;
     float:right;

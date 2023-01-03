@@ -72,7 +72,7 @@ For Kruskal's algorithm and the MST problem, these sets would have the following
 Notice how the feasible sets naturally contain all bases.
 
 {% include figure.html
-    img="/assets/images/greedoids/mst-feasibility.png" width="85%"
+    img="/assets/images/mst-feasibility.png" width="85%"
     caption="Examples of feasible sets (green) and non-feasible sets (red) in the MST problem. 
         Feasible sets must be contain no cycles.
         Note the rightmost is a basis."
@@ -114,7 +114,7 @@ This widens the previous statement to the following: *every feasible set* must b
 This is the essence of accessibility.
 
 {% include figure.html
-    img="/assets/images/greedoids/mst-accessibility.png" width="90%"
+    img="/assets/images/mst-accessibility.png" width="90%"
     caption="Example of a feasible set chain in the MST problem.
         Each feasible set contains a feasible set one element smaller, 
         until the empty set is reached."
@@ -176,7 +176,7 @@ Along the path between these nodes, there is an edge that spans components of `s
 Because it spans components, this edge can be added without creating a cycle. 
 
 {% include figure.html
-    img="/assets/images/greedoids/mst-pigeonhole.png" width="75%"
+    img="/assets/images/mst-pigeonhole.png" width="75%"
     caption="The pigeonhole principle applied to two forests,
         one smaller (left) and one larger (right), with the same node sets.
         The components of the smaller are superimposed on the larger.
@@ -190,7 +190,7 @@ for any two feasible sets, one smaller and one larger, there is an element of th
 This is exactly the definition of the exchange property.
 
 {% include figure.html
-    img="/assets/images/greedoids/mst-exchange.png" width="55%"
+    img="/assets/images/mst-exchange.png" width="55%"
     caption="A feasible set (right) in the MST problem
         receiving an edge (blue) from a larger feasible set (left) that preserves feasibility."
 %}

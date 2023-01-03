@@ -1,36 +1,19 @@
----
-layout: default
----
-<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
-
-  <header class="post-header">
-    {% if page.series %}
-      {% assign page_series_title = page.series | append: ', ' | append: page.section%}
-      <h3 class="post-title p-name" itemprop="name headline">{{ page_series_title | escape }}</h3>
-    {% endif %}
-    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
-    <p class="post-meta">
-      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-        {{ page.date | date: date_format }}
-      </time>
-      {%- if page.author -%}
-        • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
-      {%- endif -%}
-      {% capture number_of_words %}
-        {{ page.content | number_of_words }}
-      {% endcapture %}
-        • <span> {{ number_of_words | divided_by: 200 | append: "min read" }} </span>
-    </p>
-  </header>
-
-  <div class="post-content e-content" itemprop="articleBody">
-    {{ content }}
-  </div>
-
-  {%- if site.disqus.shortname -%}
-    {%- include disqus_comments.html -%}
-  {%- endif -%}
-
-  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
-</article>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+{% include head.html %}
+<body>
+<main>
+    {% include header.html %}
+    <h1>{{ page.title }}</h1>
+    {% if page.subtitle %}<h4>{{ page.subtitle }}</h4>{% endif %}
+    <i>
+        {% capture number_of_words %}{{ page.content | number_of_words }}{% endcapture %}
+        {{ page.date | date: "%b %d, %Y" }}
+        &#8226; {{ site.author }}
+        &#8226; {{ number_of_words | divided_by: 200 | append: "min" }}
+    </i>
+    {{ page.content }}
+</main>
+{% include footer-post.html %}
+</body>
+</html>

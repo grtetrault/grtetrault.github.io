@@ -1,13 +1,7 @@
 ---
 layout: post
-series:  "Greedoids"
-section: "Part 1"
-title:   "What is a greedoid?"
-date:   2022-03-23
-author: Garrett Tetrault
-publish: true
-katex: true
-categories: greedoid greedy algorithm
+title: "What is a greedoid?"
+subtitle: "Greedoids pt. 1"
 ---
 
 Greedy algorithms build up a solution by making the locally optimal, or "greedy", choice at each step.
@@ -77,16 +71,12 @@ For Kruskal's algorithm and the MST problem, these sets would have the following
 
 Notice how the feasible sets naturally contain all bases.
 
-<figure>
-<img src="/assets/images/greedoids/mst-feasibility.png" style="width:85%"/>
-<figcaption>
-    <div class="centered-figcaption">
-        Examples of feasible sets (green) and non-feasible sets (red) in the MST problem. 
+{% include figure.html
+    img="/assets/images/greedoids/mst-feasibility.png" width="85%"
+    caption="Examples of feasible sets (green) and non-feasible sets (red) in the MST problem. 
         Feasible sets must be contain no cycles.
-        Note the rightmost is a basis.
-    </div>
-</figcaption>
-</figure>
+        Note the rightmost is a basis."
+%}
 
 Having a ground set and feasible sets alone does not make a problem a greedoid. 
 Indeed, most problems can be be put into the framework of ground set (domain) and feasible sets (constraints).
@@ -123,16 +113,12 @@ This implies that the hand-picked forest was visited during some iteration.
 This widens the previous statement to the following: *every feasible set* must be reachable from the empty set.
 This is the essence of accessibility.
 
-<figure>
-<img src="/assets/images/greedoids/mst-accessibility.png" style="width:90%"/>
-<figcaption>
-    <div class="centered-figcaption">
-        Example of a feasible set chain in the MST problem.
+{% include figure.html
+    img="/assets/images/greedoids/mst-accessibility.png" width="90%"
+    caption="Example of a feasible set chain in the MST problem.
         Each feasible set contains a feasible set one element smaller, 
-        until the empty set is reached.
-    </div>
-</figcaption>
-</figure>
+        until the empty set is reached."
+%}
 
 To illustrate how this is formalized, consider the partial solutions leading up to `hand_picked`.
 For Kruskal's algorithm to arrive at `hand_picked`, is must have added an edge to a forest one with one less edge.
@@ -189,16 +175,13 @@ but are in the same component of `larger`.
 Along the path between these nodes, there is an edge that spans components of `smaller`.
 Because it spans components, this edge can be added without creating a cycle. 
 
-<figure>
-<img src="/assets/images/greedoids/mst-pigeonhole.png" style="width:75%"/>
-<figcaption>
-    <div class="centered-figcaption">
-        The pigeonhole principle applied to two forests, one smaller (left) and one larger (right), with the same node sets.
+{% include figure.html
+    img="/assets/images/greedoids/mst-pigeonhole.png" width="75%"
+    caption="The pigeonhole principle applied to two forests,
+        one smaller (left) and one larger (right), with the same node sets.
         The components of the smaller are superimposed on the larger.
-        Notice the edge in the larger that spans the components of smaller.
-    </div>
-</figcaption>
-</figure>
+        Notice the edge in the larger that spans the components of smaller."
+%}
 
 This shows that for any two forests, one smaller and one larger, there is an edge of the larger that can be appended to the smaller without creating a cycle.
 
@@ -206,15 +189,11 @@ Generalizing to greedoids gives the following:
 for any two feasible sets, one smaller and one larger, there is an element of the larger that can be appended to the smaller that preserves feasibility.
 This is exactly the definition of the exchange property.
 
-<figure>
-<img src="/assets/images/greedoids/mst-exchange.png" style="width:55%"/>
-<figcaption>
-    <div class="centered-figcaption">
-        A feasible set (right) in the MST problem
-        receiving an edge (blue) from a larger feasible set (left) that preserves feasibility. 
-    </div>
-</figcaption>
-</figure>
+{% include figure.html
+    img="/assets/images/greedoids/mst-exchange.png" width="55%"
+    caption="A feasible set (right) in the MST problem
+        receiving an edge (blue) from a larger feasible set (left) that preserves feasibility."
+%}
 
 Reversing the reduction above, this property gives the guarantee that a basis is always returned.
 And, though the example here relies on graph specific features, the property is remarkably ubiquitous.

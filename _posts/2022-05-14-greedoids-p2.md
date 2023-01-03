@@ -1,12 +1,7 @@
 ---
 layout: post
-series: "Greedoids"
-section: "Part 2"
 title:  "Structure vs. objective"
-date:   2022-05-14
-author: Garrett Tetrault
-publish: true
-categories: greedoid greedy algorithm
+subtitle: "Greedoids pt. 2"
 ---
 
 This is part two in a series on greedoids.
@@ -27,15 +22,12 @@ These are all possible *objectives* for your visit.
 The *structure* is knowing how all the roads connect.
 If you know that the roads form a grid, mapping out you're trip efficiently is much easier.
 
-<figure>
-<img src="/assets/images/greedoids/nyc-london-station-routes.png" style="width:95%"/>
-<figcaption>
-    <div class="centered-figcaption">
-        Routes in Manhattan (left) and London (right) to popular train stations (orange) from sampled locations.
-        Shortest routes in grid-like systems are more apparent.
-    </div>
-</figcaption>
-</figure>
+{% include figure.html
+    img="/assets/images/greedoids/nyc-london-station-routes.png" width="95%"
+    caption="Routes in Manhattan (left) and London (right)
+        to popular train stations (orange) from sampled locations.
+        Shortest routes in grid-like systems are more apparent."
+%}
 
 Knowing a problem is a greedoid is like knowing that streets are organized in a grid.
 Just like how visiting every museums might not be possible in a day, some objectives are not optimally solved by greedy algorithms, even if the greedoid properties hold.
@@ -116,8 +108,8 @@ def greedy_algorithm(greedoid, objective_fn):
         min_elem = None
         min_val  = inf
         for elem in greedoid.ground_set:
-            # Only elements that form feasible sets with the interim solution
-            # are considered for next possible steps.
+            # Only elements that form feasible sets with the interim
+            # solution are considered for next possible steps.
             candidate = solution | set(elem)
             if candidate in greedoid.feasible_sets:
                 # Use objective function to compare candidate solutions.

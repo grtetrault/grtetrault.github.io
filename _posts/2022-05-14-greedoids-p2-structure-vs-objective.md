@@ -23,7 +23,8 @@ The *structure* is knowing how all the roads connect.
 If you know that the roads form a grid, mapping out you're trip efficiently is much easier.
 
 {% include figure.html
-    img="/assets/images/nyc-london-station-routes.png" width="95%"
+    img="/assets/images/nyc-london-station-routes.png"
+    width="95%"
     caption="Routes in Manhattan (left) and London (right)
         to popular train stations (orange) from sampled locations.
         Shortest routes in grid-like systems are more apparent."
